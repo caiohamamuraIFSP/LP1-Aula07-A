@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aula07_sqlite_orm.MainPage"
+             Title="MainPage"
+             BindingContext="{StaticResource VM}">
+    <VerticalStackLayout>
+        <Entry
+            Placeholder="Item a adicionar"
+            Text="{Binding Texto}"
+            ReturnCommand="{Binding AdicionarCommand}"
+            />
+        <CollectionView
+            ItemsSource="{Binding Lista}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Frame>
+                            <Label
+                            Text="{Binding}"/>
+                        </Frame>
+                        <Button Grid.Column="1"
+                                Text="Apagar"
+                                Command="{Binding Source={StaticResource VM},Path=RemoverCommand}"
+                                CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
