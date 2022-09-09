@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Aula07_sqlite_orm.Model;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,25 +12,33 @@ namespace Aula07_sqlite_orm.ViewModel
 {
     public partial class AppViewModel : ObservableObject
     {
+        Repositorio bd = new();
+
+
         [ObservableProperty]
         string texto;
 
-        public ObservableCollection<string> Lista { get; } = new()
+        public ObservableCollection<ItemLista> Lista { get; set; }
+
+        public AppViewModel()
         {
-            "Item 1",
-            "Item 2"
-        };
+            Lista = new(bd.GetLista());
+        }
 
         [RelayCommand]
         void Adicionar()
         {
-            Lista.Add(Texto);
+            ItemLista item = new();
+            item.Item = Texto;
+            Lista.Add(item);
             Texto = "";
         }
+
         [RelayCommand]
-        void Remover(string item)
+        void Remover(ItemLista item)
         {
             Lista.Remove(item);
+            bd.Delete(item);
         }
     }
 }
